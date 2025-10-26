@@ -39,6 +39,16 @@
                 <default>false</default>
                 <label>声かけ</label>
             </value>
+            <value>
+                <fullName>イベント</fullName>
+                <default>false</default>
+                <label>イベント</label>
+            </value>
+            <value>
+                <fullName>その他</fullName>
+                <default>false</default>
+                <label>その他</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
