@@ -12,6 +12,10 @@ export default class BulkRegistTargetAudience extends LightningElement {
     { id: 2, fields: this.fieldRows },
     { id: 3, fields: this.fieldRows }
   ];
+  // insertするためのキーと値をマッピングした列
+  targetRow = {};
+  // 入力された値が入っている配列
+  targetPersons = [];
 
   /**
    * Idをキーに追加・削除するのでIdの数を動的に変化させる
@@ -24,13 +28,18 @@ export default class BulkRegistTargetAudience extends LightningElement {
     ];
   }
 
+  handleTargetAudience(event) {
+    let fieldName = event.target.fieldName;
+    let value = event.detail.value;
+    targetRow[fieldName] = value;
+  }
+
   handleCreate() {
     /**
      * 入力項目判定
-     * 仕様として、入力されていない行も存在するので、入力されている項目が1~3個の場合はエラーを表示する
-     * 0または4の場合はinsertする
+     * handleTargetAudienceで作られた配列から判定する
      */
-    console.log("列項目", this.rows);
+    console.log("入力列", this.targetPersons);
     this.rows.forEach((row) => {
 // ToDo 項目値があるか判定
     });
