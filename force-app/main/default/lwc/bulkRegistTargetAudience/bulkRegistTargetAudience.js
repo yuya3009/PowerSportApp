@@ -29,9 +29,13 @@ export default class BulkRegistTargetAudience extends LightningElement {
   }
 
   handleTargetAudience(event) {
+    let rowId = event.target.dataset.rowId;
     let fieldName = event.target.fieldName;
     let value = event.detail.value;
-    targetRow[fieldName] = value;
+    if (!this.targetRows[rowId]) {
+      this.targetRows[rowId] = {};
+    }
+    this.targetRows[rowId][fieldName] = value;
   }
 
   handleCreate() {
@@ -39,8 +43,12 @@ export default class BulkRegistTargetAudience extends LightningElement {
      * 入力項目判定
      * handleTargetAudienceで作られた配列から判定する
      */
-    console.log("入力列", this.targetPersons);
-    this.rows.forEach((row) => {
+    this.targetRow = JSON.stringify(this.targetRow);
+    console.log('入力列', this.targetRow);
+    this.targetRow.forEach((row) => {
+      if (row.Name = null) {
+        displayToast('', '対象者名が空欄になっています', 'error');
+      }
 // ToDo 項目値があるか判定
     });
   }
