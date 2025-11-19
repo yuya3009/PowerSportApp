@@ -1,5 +1,5 @@
 import { LightningElement } from 'lwc';
-import { displayToast } from 'c/util';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class BulkRegistTargetAudience extends LightningElement {
   // デフォルトの行数
@@ -14,8 +14,6 @@ export default class BulkRegistTargetAudience extends LightningElement {
   ];
   // insertするためのキーと値をマッピングした列
   targetRow = {};
-  // 入力された値が入っている配列
-  targetPersons = [];
 
   /**
    * Idをキーに追加・削除するのでIdの数を動的に変化させる
@@ -32,10 +30,18 @@ export default class BulkRegistTargetAudience extends LightningElement {
     let rowId = event.target.dataset.rowId;
     let fieldName = event.target.fieldName;
     let value = event.detail.value;
-    if (!this.targetRows[rowId]) {
-      this.targetRows[rowId] = {};
-    }
-    this.targetRows[rowId][fieldName] = value;
+    // 既存の列の値を取得（なければ空オブジェクト）
+    let inputRow = this.targetRow[rowId] || {};
+    // 新しい値でマージ
+    let updatedRow = {
+      ...inputRow,
+      [fieldName]: value
+    };
+    // targetRow自体も新しいオブジェクトにして再代入（リアクティブにするため）
+    this.targetRow = {
+      ...this.targetRow,
+      [rowId]: updatedRow
+    };
   }
 
   handleCreate() {
@@ -43,13 +49,59 @@ export default class BulkRegistTargetAudience extends LightningElement {
      * 入力項目判定
      * handleTargetAudienceで作られた配列から判定する
      */
-    this.targetRow = JSON.stringify(this.targetRow);
-    console.log('入力列', this.targetRow);
-    this.targetRow.forEach((row) => {
-      if (row.Name = null) {
-        displayToast('', '対象者名が空欄になっています', 'error');
+    let fieldName_name = 'Name';
+    let fieldName_AcquaintanceRoute__c = 'AcquaintanceRoute__c';
+    let fieldName_LineInformation__c = 'LineInformation__c';
+    let fieldName_FirstConversationDate__c = 'FirstConversationDate__c';
+    let failureOfToast = 'error';
+    // this.targetRow = JSON.stringify(this.targetRow);
+    Object.keys(this.targetRow).forEach(rowNumber => {
+      // 各項目の値をチェック
+      let row = this.targetRow[rowNumber];
+      // Nameバリデーション
+      if (!(fieldName_name in row)) {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: '',
+            message: '対象者名が空欄になっています',
+            variant: failureOfToast
+          })
+        );
+        return;
       }
-// ToDo 項目値があるか判定
+      // AcquaintanceRoute__cバリデーション
+      if (!(fieldName_AcquaintanceRoute__c in row)) {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: '',
+            message: '知り合い経路が空欄になっています',
+            variant: failureOfToast
+          })
+        );
+        return;
+      }
+      // LineInformation__cバリデーション
+      if (!(fieldName_LineInformation__c in row)) {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: '',
+            message: 'LINE情報が空欄になっています',
+            variant: failureOfToast
+          })
+        );
+        return;
+      }
+      // FirstConversationDate__cバリデーション
+      if (!(fieldName_FirstConversationDate__c in row)) {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: '',
+            message: '初回会話日が空欄になっています',
+            variant: failureOfToast
+          })
+        );
+        return;
+      }
     });
   }
 }
