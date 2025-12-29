@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LineInformation__c</fullName>
+    <description>LINEまたはインスタグラム等のSNSの名前またはIDを入れる項目</description>
+    <externalId>false</externalId>
+    <label>LINE情報</label>
+    <length>30</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

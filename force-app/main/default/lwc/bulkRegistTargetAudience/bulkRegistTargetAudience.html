@@ -1,0 +1,26 @@
+<template>
+  <lightning-card>
+      <lightning-record-edit-form object-api-name="TargetAudience__c">
+        <template for:each={rows} for:item="row">
+          <div key={row.id} class="slds-grid slds-gutters slds-m-bottom_x-small">
+            <template for:each={row.fields} for:item="field">
+              <lightning-input-field
+                key={field}
+                field-name={field}
+                data-row-id={row.id} 
+                onchange={handleTargetAudience}
+                required="true"
+                class="slds-m-left_small slds-size_1-of-6"
+              ></lightning-input-field>
+            </template>
+          </div>
+        </template>
+        <lightning-button
+          label="行を追加"
+          onclick={addRow}
+          class="slds-m-right_small"
+        ></lightning-button>
+        <lightning-button variant="brand" label="作成" class="slds-m-top_xx-small slds-align_absolute-center" onclick={handleCreate}></lightning-button>
+      </lightning-record-edit-form>
+  </lightning-card>
+</template>
