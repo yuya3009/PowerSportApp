@@ -74,7 +74,7 @@
         <connector>
             <targetReference>getTargetAudienceWithEvent</targetReference>
         </connector>
-        <object>Event</object>
+        <object>Task</object>
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
